@@ -1,0 +1,22 @@
+type: vertical-stack
+cards:
+  - type: entities
+    title: Wärmepumpe Heizung
+    entities:
+      - sensor.ochsner_w2c_aussentemperatur
+      - sensor.ochsner_w2c_raumtemperatur
+      - sensor.ochsner_w2c_relative_luftfeuchte
+      - sensor.ochsner_w2c_status_heizkreis_betriebswahl
+      - select.ochsner_w2c_betriebswahl_heizung
+      - sensor.ochsner_w2c_status_heizkreis
+      - binary_sensor.ochsner_w2c_heizung_aktiv
+  - type: entities
+    title: Wärmepumpe Warmwasser
+    entities:
+      - sensor.ochsner_w2c_warmwasser_ist_temperatur
+      - sensor.ochsner_w2c_warmwasser_soll_temperatur
+      - sensor.ochsner_w2c_status_warmwasser_betriebswahl
+      - select.ochsner_w2c_betriebswahl_warmwasser
+      - sensor.ochsner_w2c_status_warmwasser
+      - switch.ochsner_w2c_warmwasser_manuell
+      - binary_sensor.ochsner_w2c_warmwasser_aktiv
