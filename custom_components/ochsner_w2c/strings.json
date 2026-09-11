@@ -1,0 +1,24 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Ochsner W2C verbinden",
+        "description": "Zugangsdaten des lokalen web2com-Gateways eingeben.",
+        "data": {
+          "gateway_host": "Gateway-IP",
+          "target_host": "W2C Ziel-IP",
+          "username": "Benutzername",
+          "password": "Passwort",
+          "verify_ssl": "SSL-Zertifikat prüfen",
+          "scan_interval": "Abfrageintervall (Sekunden)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung oder Anmeldung fehlgeschlagen."
+    },
+    "abort": {
+      "already_configured": "Dieses W2C-Gerät ist bereits eingerichtet."
+    }
+  }
+}
