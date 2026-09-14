@@ -8,6 +8,12 @@ Vor dem Upgrade die alte Integration entfernen, Dateien ersetzen, Home Assistant
 
 Für den manuellen Wasser Switch (switch.ochsner_w2c_warmwasser_manuell) müssen folgende Automatisierungen angelegt werden:
 
+<details>
+<summary>Automatisierung YAML Code</summary>
+
+### Ochsner Warmwasser manuell ein
+
+```yaml
 alias: Ochsner Warmwasser manuell ein
 description: ''
 triggers:
@@ -30,7 +36,10 @@ actions:
     target:
       entity_id: switch.ochsner_w2c_warmwasser_manuell
 mode: single
+```
+### Ochsner Warmwasser manuell aus
 
+```yaml
 alias: Ochsner Warmwasser manuell aus
 description: ''
 triggers:
@@ -47,3 +56,5 @@ actions:
     target:
       entity_id: switch.ochsner_w2c_warmwasser_manuell
 mode: single
+```
+</details>
