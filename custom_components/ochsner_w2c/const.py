@@ -1,7 +1,9 @@
-DOMAIN="ochsner_w2c"
-PLATFORMS=["sensor","select","switch","binary_sensor"]
-CONF_GATEWAY_HOST="gateway_host"
-CONF_TARGET_HOST="target_host"
-CONF_VERIFY_SSL="verify_ssl"
-CONF_SCAN_INTERVAL="scan_interval"
-DEFAULT_SCAN_INTERVAL=60
+DOMAIN = "ochsner_w2c"
+PLATFORMS = ["sensor", "select", "switch", "binary_sensor"]
+CONF_W2C_HOST = "w2c_host"
+CONF_SCAN_INTERVAL = "scan_interval"
+CONF_MQTT_ENABLED = "mqtt_enabled"
+CONF_MQTT_BASE_TOPIC = "mqtt_base_topic"
+DEFAULT_SCAN_INTERVAL = 60
+DEFAULT_MQTT_BASE_TOPIC = "web2com"
+OIDS = ["/1/2/4/119/1", "/1/2/4/119/3", "/1/2/4/119/7", "/1/2/4/119/0", "/1/2/4/107/0", "/1/2/7/121/1", "/1/2/7/121/2", "/1/2/7/121/0", "/1/2/7/107/0"]
