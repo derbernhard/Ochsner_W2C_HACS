@@ -2,20 +2,20 @@
   "config": {
     "step": {
       "user": {
-        "title": "Ochsner W2C verbinden",
-        "description": "Zugangsdaten des lokalen web2com-Gateways eingeben.",
+        "title": "Ochsner W2C direkt verbinden",
+        "description": "Direkte SOAP-Verbindung zum W2C. MQTT-Veröffentlichung ist optional und verwendet die in Home Assistant konfigurierte MQTT-Integration.",
         "data": {
-          "gateway_host": "Gateway-IP",
-          "target_host": "W2C Ziel-IP",
+          "w2c_host": "W2C IP-Adresse",
           "username": "Benutzername",
           "password": "Passwort",
-          "verify_ssl": "SSL-Zertifikat prüfen",
-          "scan_interval": "Abfrageintervall (Sekunden)"
+          "scan_interval": "Abfrageintervall (Sekunden)",
+          "mqtt_enabled": "Werte zusätzlich über Home Assistant MQTT veröffentlichen",
+          "mqtt_base_topic": "MQTT Basistopic"
         }
       }
     },
     "error": {
-      "cannot_connect": "Verbindung oder Anmeldung fehlgeschlagen."
+      "cannot_connect": "Direkte Verbindung zum W2C fehlgeschlagen."
     },
     "abort": {
       "already_configured": "Dieses W2C-Gerät ist bereits eingerichtet."
