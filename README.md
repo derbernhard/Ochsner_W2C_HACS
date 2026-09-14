@@ -2,8 +2,9 @@
 
 Direkte Home-Assistant-Anbindung an `http://<W2C-IP>/ws` über SOAP. Ein externen PHP-Server wird nicht mehr benötigt.
 
-
-
+<p align="left">
+media/dashboard_sample.png
+</p>
 
 Optional können gelesene Werte über die bereits in Home Assistant eingerichtete MQTT-Integration retained unter `web2com/<OID>` veröffentlicht werden.
 
