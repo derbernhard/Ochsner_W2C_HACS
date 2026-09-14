@@ -1,4 +1,4 @@
-# Ochsner W2C Direct 1.2.0
+# Ochsner Web2Com
 
 Direkte Home-Assistant-Anbindung an `http://<W2C-IP>/ws` über SOAP. Der externe PHP-Server und `phpMQTT.php` werden nicht mehr benötigt.
 
