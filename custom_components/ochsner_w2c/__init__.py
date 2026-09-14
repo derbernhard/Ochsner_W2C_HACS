@@ -1,5 +1,6 @@
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api import W2CApi
 from .const import *
@@ -20,7 +21,7 @@ async def async_migrate_entry(hass, entry: ConfigEntry) -> bool:
     return True
 
 async def async_setup_entry(hass, entry):
-    api = W2CApi(hass, entry.data[CONF_W2C_HOST], entry.data[CONF_USERNAME], entry.data[CONF_PASSWORD])
+    api = W2CApi(async_get_clientsession(hass), entry.data[CONF_W2C_HOST], entry.data[CONF_USERNAME], entry.data[CONF_PASSWORD])
     coordinator = W2CCoordinator(hass, api, entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL), entry.data.get(CONF_MQTT_ENABLED, False), entry.data.get(CONF_MQTT_BASE_TOPIC, DEFAULT_MQTT_BASE_TOPIC))
     await coordinator.async_config_entry_first_refresh()
     entry.runtime_data = coordinator
