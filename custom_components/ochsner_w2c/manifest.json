@@ -1,7 +1,7 @@
 {
   "domain": "ochsner_w2c",
   "name": "Ochsner W2C",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "config_flow": true,
   "iot_class": "local_polling",
   "requirements": [],
