@@ -2,23 +2,23 @@
   "config": {
     "step": {
       "user": {
-        "title": "Ochsner W2C direkt verbinden",
-        "description": "Direkte SOAP-Verbindung zum W2C. MQTT-Veröffentlichung ist optional und verwendet die in Home Assistant konfigurierte MQTT-Integration.",
+        "title": "Connect Ochsner W2C directly",
+        "description": "Direct SOAP connection to the W2C. MQTT publishing is optional and uses the MQTT integration configured in Home Assistant.",
         "data": {
-          "w2c_host": "W2C IP-Adresse",
-          "username": "Benutzername",
-          "password": "Passwort",
-          "scan_interval": "Abfrageintervall (Sekunden)",
-          "mqtt_enabled": "Werte zusätzlich über Home Assistant MQTT veröffentlichen",
-          "mqtt_base_topic": "MQTT Basistopic"
+          "w2c_host": "W2C IP address",
+          "username": "Username",
+          "password": "Password",
+          "scan_interval": "Polling interval (seconds)",
+          "mqtt_enabled": "Also publish values via Home Assistant MQTT",
+          "mqtt_base_topic": "MQTT base topic"
         }
       }
     },
     "error": {
-      "cannot_connect": "Direkte Verbindung zum W2C fehlgeschlagen."
+      "cannot_connect": "Direct connection to the W2C failed."
     },
     "abort": {
-      "already_configured": "Dieses W2C-Gerät ist bereits eingerichtet."
+      "already_configured": "This W2C device is already configured."
     }
   }
 }
