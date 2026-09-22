@@ -47,4 +47,7 @@ async def async_setup_entry(hass, entry: ConfigEntry) -> bool:
 
 async def async_unload_entry(hass, entry: ConfigEntry) -> bool:
     _LOGGER.debug("Unloading Ochsner W2C: entry_id=%s", entry.entry_id)
+    coordinator = getattr(entry, "runtime_data", None)
+    if coordinator is not None:
+        await coordinator.async_shutdown_boost()
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
