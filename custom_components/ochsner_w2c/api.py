@@ -10,9 +10,14 @@ from aiohttp import BasicAuth, ClientError, ClientResponseError, ClientSession
 
 _LOGGER = logging.getLogger(__name__)
 
-NS = "[ws01.lom.ch](http://ws01.lom.ch/soap/)"
-ACTION_LIST = "[ws01.lom.ch](http://ws01.lom.ch/soap/listDP)"
-ACTION_WRITE = "[ws01.lom.ch](http://ws01.lom.ch/soap/writeDP)"
+_S = "http:" + "/"
+NS = _S + "/ws01.lom.ch/soap/"
+ACTION_LIST = _S + "/ws01.lom.ch/soap/listDP"
+ACTION_WRITE = _S + "/ws01.lom.ch/soap/writeDP"
+_SOAPENV = _S + "/schemas.xmlsoap.org/soap/envelope/"
+_SOAPENC = _S + "/schemas.xmlsoap.org/soap/encoding/"
+_XSI = _S + "/www.w3.org/2001/XMLSchema-instance"
+_XSD = _S + "/www.w3.org/2001/XMLSchema"
 
 
 class W2CApiError(Exception):
@@ -30,7 +35,7 @@ class W2CApi:
             )
         self._session = session
         self._host = host.strip().rstrip("/")
-        self._url = f"[{self._host}](http://{self._host}/ws)"
+        self._url = _S + "/" + self._host + "/ws"
         self._auth = BasicAuth(username, password)
         self._timeout = timeout
         _LOGGER.debug("Initialising Ochsner W2C API: host=%s timeout=%ss auth=basic", self._host, timeout)
@@ -39,10 +44,10 @@ class W2CApi:
     def _envelope(body: str) -> str:
         return (
             '<?xml version="1.0" encoding="UTF-8"?>'
-            '<SOAP-ENV:Envelope xmlns:SOAP-ENV="[schemas.xmlsoap.org](http://schemas.xmlsoap.org/soap/envelope/)" '
-            'xmlns:SOAP-ENC="[schemas.xmlsoap.org](http://schemas.xmlsoap.org/soap/encoding/)" '
-            'xmlns:xsi="[w3.org](http://www.w3.org/2001/XMLSchema-instance)" '
-            'xmlns:xsd="[w3.org](http://www.w3.org/2001/XMLSchema)" '
+            f'<SOAP-ENV:Envelope xmlns:SOAP-ENV="{_SOAPENV}" '
+            f'xmlns:SOAP-ENC="{_SOAPENC}" '
+            f'xmlns:xsi="{_XSI}" '
+            f'xmlns:xsd="{_XSD}" '
             f'xmlns:ns="{NS}">'
             f"<SOAP-ENV:Body>{body}</SOAP-ENV:Body></SOAP-ENV:Envelope>"
         )
@@ -98,12 +103,14 @@ class W2CApi:
             _LOGGER.error("SOAP response is not valid XML: preview=%r", preview)
             raise W2CApiError(f"Malformed SOAP response: {err}") from err
 
-        for path in (f".//{{{NS}}}value", ".//value"):
-            el = root.find(path)
-            if el is not None and el.text is not None:
-                text = el.text.strip()
+        for element in root.iter():
+            if element.tag.rsplit("}", 1)[-1] == "value":
+                text = (element.text or "").strip()
+                if not text:
+                    return None
+                normalized = text.replace(",", ".")
                 try:
-                    return float(text.replace(",", "."))
+                    return float(normalized) if "." in normalized else int(normalized)
                 except ValueError:
                     return text
 
@@ -127,19 +134,21 @@ class W2CApi:
         except ET.ParseError as err:
             raise W2CApiError(f"Malformed SOAP response: {err}") from err
 
-        def _find(tag: str):
-            el = root.find(f".//{{{NS}}}{tag}")
-            if el is None:
-                el = root.find(f".//{tag}")
-            return el.text if el is not None else None
+        found: dict[str, str] = {}
+        for element in root.iter():
+            tag = element.tag.rsplit("}", 1)[-1]
+            if tag in ("minValue", "maxValue") and element.text:
+                found[tag] = element.text.strip()
 
         def _num(text):
+            if text is None:
+                return None
             try:
-                return float(str(text).replace(",", "."))
-            except (TypeError, ValueError):
+                return float(text.replace(",", "."))
+            except ValueError:
                 return None
 
-        limits = (_num(_find("minValue")), _num(_find("maxValue")))
+        limits = (_num(found.get("minValue")), _num(found.get("maxValue")))
         _LOGGER.debug("W2C OID limits: oid=%s min=%s max=%s", oid, limits[0], limits[1])
         return limits
 
